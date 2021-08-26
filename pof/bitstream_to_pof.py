@@ -24,16 +24,14 @@ def tag_finder(input_file, tag_adress):
                 arr.append(input_file[i])
                 i += 1
     array = bytearray(arr)
-    print(array)
-    return array
 
+    return array
 
 def copy_file_part(input_file, start, stop):
     arr = []
     for i in range(start, stop):
         arr.append(input_file[i])
     array = bytearray(arr)
-    print(array)
     return array
 
 def write_bitstr(input_file):
@@ -43,19 +41,15 @@ def write_bitstr(input_file):
     array = bytearray(arr)
     return array
 
-def terminator(input_file):    # терминатор находится в последних 8 байтах файла
-    arr = []
-    for i in range(len(input_file)):
-        arr.append(input_file[i])
-    buffer = arr[-8:]                       # последние 8 байтов
-    array = bytearray(buffer)
+def terminator(crc_check):
+    array = bytearray(crc_check)
     return array
 
 def result_array(copy_1, tags, copy_2, bitstream, copy_3, terminator):      # сложение всех списков и запись в файл
     return copy_1 + tags + copy_2 + bitstream + copy_3 + terminator
 
 
-prog_pof.write(result_array(copy_file_part(pof_file_data, 0x0, 0xc), tag_finder(pof_file_data, 0xc), copy_file_part(pof_file_data, 0x76, 0x100c2), write_bitstr(bitstream), copy_file_part(pof_file_data, 0x600c3, 0x80082), terminator(pof_file_data)))
+prog_pof.write(result_array(copy_file_part(pof_file_data, 0x0, 0xc), tag_finder(pof_file_data, 0xc), copy_file_part(pof_file_data, 0x76, 0x100c2), write_bitstr(bitstream), copy_file_part(pof_file_data, 0x600c3, 0x80088), terminator([0,0])))
 
 
 
